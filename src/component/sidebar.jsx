@@ -6,6 +6,7 @@ import Milestones from "../assests/image/milestones.svg";
 import Logout from "../assests/image/icon-logout.svg";
 import Myteam from "../assests/image/my-team.svg";
 import Planing from "../assests/image/planing.svg";
+import '../assests/scss/style';
 
 function Sidebar() {
   return (
@@ -13,8 +14,8 @@ function Sidebar() {
        <div className='top-part'>
         <img src={Logo} className='logo-left' alt='logo' />
          <div className='welkom'>
-         <div className='flex-welkom'>
-          <div className="profile-image"></div>
+          <div className='flex-welkom'>
+           <div className="profile-image"></div>
             <div className='name-profile'>Welkom, Martijn</div>
           </div>
           <p><span className='profile-circle-dot'></span>Bekijk notificaties</p>

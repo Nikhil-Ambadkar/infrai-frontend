@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <Sidebar/>
       
-    <main id="main" className="main">
+  <main id="main" className="main">
     <div className="pagetitle">
       {/* <h1>Dashboard</h1> */}
       <nav>
