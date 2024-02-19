@@ -1,8 +1,12 @@
 import React from "react";
 import IconSelect from "../../assests/image/icon-select.svg";
+import DropFileInput from "../documentUploader"
 
 
 function ProjectDetails() {
+    const onFileChange = (files) => {
+        console.log(files);
+    }
 
     return (
         <>
@@ -68,12 +72,12 @@ function ProjectDetails() {
 
                         <div className='row mt-3'>
                             <div className='col-md-12 relative-select'>
-                              <label className='form-label'>Product owner</label>
+                                <label className='form-label'>Product owner</label>
                                 <select className='form-control'>
                                     <option>Select Product owner</option>
                                     <option> Product owner 1</option>
                                 </select>
-                                <img src={IconSelect} alt="icon" className="icon-select"/>
+                                <img src={IconSelect} alt="icon" className="icon-select" />
                             </div>
                         </div>
 
@@ -96,7 +100,9 @@ function ProjectDetails() {
                 </div>
                 <div className='col-md-6'>
                     <div className='box-primary px-4 py-4'>
-
+                        <DropFileInput
+                            onFileChange={(files) => onFileChange(files)}
+                        />
                     </div>
                 </div>
             </div >
