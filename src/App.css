@@ -1,6 +1,8 @@
-.App {
+@import url('./assests/scss/style.scss');
+
+/* .App {
   text-align: center;
-}
+} */
 
 .App-logo {
   height: 40vmin;
@@ -458,3 +460,5 @@ li.breadcrumb-item {
     margin-left:268px;
 }
 }
+
+
