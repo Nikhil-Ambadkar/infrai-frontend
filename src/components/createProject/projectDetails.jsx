@@ -1,10 +1,10 @@
 import React from "react";
 import IconSelect from "../../assests/image/icon-select.svg";
 
+
 function ProjectDetails() {
+
     return (
-
-
         <>
             {/* step 1 */}
             < div className='row' >
