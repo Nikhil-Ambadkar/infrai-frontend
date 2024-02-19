@@ -39,7 +39,7 @@ function Sidebar() {
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="/add-project">
                   <span>Create new project</span>
                 </a>
               </li>
