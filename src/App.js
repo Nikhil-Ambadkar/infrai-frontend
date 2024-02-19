@@ -1,27 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
-import Sidebar from "./component/Sidebar";
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import Sidebar from "./components/sidebar";
+import CreateProject from "./components/createProject/index"
 
 function App() {
   return (
     <div className="App">
-      <Sidebar/>
-      
-  <main id="main" className="main">
-    <div className="pagetitle">
-      {/* <h1>Dashboard</h1> */}
-      <nav>
-        <ol className="breadcrumb">
-         <li className="breadcrumb-item">
-           <a href="#">Projects </a>
-            </li>
-          <li className="breadcrumb-item active">New project</li>
-          </ol>
-        </nav>
-        </div>
-      </main>
-     </div>
-   
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="add-project" element={<CreateProject />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
