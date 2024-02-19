@@ -1,10 +1,10 @@
 import React from "react";
 
 
+
 function ProjectDetails() {
+
     return (
-
-
         <>
             {/* step 1 */}
             < div className='row' >
