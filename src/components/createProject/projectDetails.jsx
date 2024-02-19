@@ -1,5 +1,5 @@
 import React from "react";
-
+import IconSelect from "../../assests/image/icon-select.svg";
 
 function ProjectDetails() {
     return (
@@ -9,7 +9,7 @@ function ProjectDetails() {
             {/* step 1 */}
             < div className='row' >
                 <div className='col-md-6'>
-                    <div className='box-primary px-4 py-4'>
+                    <div className='box-primary'>
                         <div className='row'>
                             <div className='col-md-12'>
                                 <h5 className='form-heading'>Describe the </h5>
@@ -67,27 +67,28 @@ function ProjectDetails() {
                         </div>
 
                         <div className='row mt-3'>
-                            <div className='col-md-12'>
-                                <label className='form-label'>Product owner</label>
+                            <div className='col-md-12 relative-select'>
+                              <label className='form-label'>Product owner</label>
                                 <select className='form-control'>
                                     <option>Select Product owner</option>
                                     <option> Product owner 1</option>
                                 </select>
+                                <img src={IconSelect} alt="icon" className="icon-select"/>
                             </div>
                         </div>
 
                         <div className='row mt-4'>
                             <div className='col-md-12'>
-                                <label for="declaration" className='d-flex justify-content-start'>
+                                <label for="declaration" className='d-flex justify-content-start checkbox-border'>
                                     <input type="checkbox" id="declaration" />
-                                    <span className='declaration-text mx-3'>This project does not consist of sub-projects, but is executable on its own.</span>
+                                    <span className='declaration-text'>This project does not consist of sub-projects, but is executable on its own.</span>
                                 </label>
                             </div>
                         </div>
 
-                        <div className='row mt-5'>
+                        <div className='row configure-project'>
                             <div className='col-md-12'>
-                                <button type='button' className='btn btn-primary btn-lg w-100'>Configure project</button>
+                                <button type='button' className='btn-primary btn-lg w-100 configure-project-btn'>Configure project</button>
                             </div>
                         </div>
 
