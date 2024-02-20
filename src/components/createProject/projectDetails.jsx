@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import IconSelect from "../../assests/image/icon-select.svg";
-import DropFileInput from "../documentUploader"
+import IconCalender from "../../assests/image/icon-calender.svg";
+import DropFileInput from "../documentUploader";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
-function ProjectDetails() {
+
+
+function ProjectDetails({ props }) {
+    const { internalReference, externalReference, projectTitle, projectReference, description, startDate, endDate, addProjectDetails } = props.project;
+
+
+    console.log("props", props);
+
+
     const onFileChange = (files) => {
         console.log(files);
+    }
+
+    const onSubmit = () => {
+        addProjectDetails()
     }
 
     return (
@@ -33,40 +48,57 @@ function ProjectDetails() {
                         <div className='row mt-3'>
                             <div className='col-md-6'>
                                 <label className='form-label'>Internal reference</label>
-                                <input className='form-control' />
+                                <input className='form-control' value={internalReference} />
                             </div>
                             <div className='col-md-6'>
                                 <label className='form-label'>External reference</label>
-                                <input className='form-control' />
+                                <input className='form-control' value={externalReference} />
                             </div>
                         </div>
 
                         <div className='row mt-3'>
                             <div className='col-md-6'>
                                 <label className='form-label'>Project title</label>
-                                <input className='form-control' />
+                                <input className='form-control' value={projectTitle} />
                             </div>
                             <div className='col-md-6'>
                                 <label className='form-label'>Project reference</label>
-                                <input className='form-control' />
+                                <input className='form-control' value={projectReference} />
                             </div>
                         </div>
 
                         <div className='row mt-3'>
                             <div className='col-md-12'>
                                 <label className='form-label'>Description</label>
-                                <textarea className='form-control'></textarea>
+                                <textarea className='form-control' value={description}></textarea>
                             </div>
                         </div>
 
                         <div className='row mt-3'>
-                            <div className='col-md-6'>
+                            <div className='col-md-6  relative-select'>
                                 <label className='form-label'>Start date</label>
-                                <input type='date' className='form-control' />
+                                {/* <input type='date' className='form-control' /> */}
+                                <DatePicker
+                                    className='form-control'
+                                    dateFormat="dd.MM.yyyy"
+                                    selected={startDate}
+                                    minDate={new Date()}
+                                // onChange={(date) => setStartDate(date)} 
+                                />
+                                <img src={IconCalender} alt="icon" className="icon-select" />
+
                             </div>
-                            <div className='col-md-6'>
+                            <div className='col-md-6  relative-select'>
                                 <label className='form-label'>End date</label>
-                                <input type='date' className='form-control' />
+                                {/* <input type='date' className='form-control' /> */}
+                                <DatePicker
+                                    className='form-control'
+                                    dateFormat="dd.MM.yyyy"
+                                    selected={endDate.getTime()}
+                                    minDate={startDate.getTime() + 86400000}
+                                // onChange={(date) => setEndDate(date)} 
+                                />
+                                <img src={IconCalender} alt="icon" className="icon-select" />
                             </div>
                         </div>
 
