@@ -27,8 +27,13 @@ function CreateProject() {
         boundryUnit: null,
         projectMap: null
     })
-    const addProjectDetails = () => {
+    const addProjectDetails = (data) => {
+        alert();
+        console.log("data", data);
+    }
 
+    const addProjectFiles = (files) => {
+        console.log("addProjectFiles function called", files);
     }
 
     const changeActiveComponent = (componentName) => {
@@ -64,7 +69,7 @@ function CreateProject() {
                 </div>
                 {
                     activeComponent == 'projectDetails' ?
-                        <ProjectDetails props={{ "project": project, "addProjectDetails": addProjectDetails }} />
+                        <ProjectDetails props={{ "project": project, "addProjectDetails": addProjectDetails, "addProjectFiles": addProjectFiles }} />
                         : activeComponent == 'projectLocation' ?
                             <ProjectLocation />
                             : activeComponent == 'projectMap' ?
