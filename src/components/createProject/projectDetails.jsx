@@ -81,7 +81,7 @@ function ProjectDetails({ props }) {
 
                             <div className='row mt-3'>
                                 <div className='col-md-6  relative-select'>
-                                    <label className='form-label'>Start date</label>
+                                    <label className='form-label start-date'>Start date</label>
                                     <DatePicker
                                         name="startDate"
                                         className='form-control'
@@ -94,7 +94,7 @@ function ProjectDetails({ props }) {
 
                                 </div>
                                 <div className='col-md-6  relative-select'>
-                                    <label className='form-label'>End date</label>
+                                    <label className='form-label start-date'>End date</label>
                                     <DatePicker
                                         name="endDate"
                                         className='form-control'
