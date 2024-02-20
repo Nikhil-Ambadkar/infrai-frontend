@@ -71,6 +71,7 @@ function ProjectDetails({ props }) {
                                 </div>
                             </div>
 
+                            {/* Description */}
                             <div className='row mt-3'>
                                 <div className='col-md-12'>
                                     <label className='form-label'>Description</label>
@@ -87,7 +88,7 @@ function ProjectDetails({ props }) {
                                         dateFormat="dd.MM.yyyy"
                                         selected={formData.startDate}
                                         minDate={formData.startDate}
-                                        onChange={(e) => { handleChange(e) }}
+                                        onChange={(value) =>  handleChange({name: 'endDate', value}) }
                                     />
                                     <img src={IconCalender} alt="icon" className="icon-select" />
 
@@ -100,7 +101,7 @@ function ProjectDetails({ props }) {
                                         dateFormat="dd.MM.yyyy"
                                         selected={formData.endDate.getTime()}
                                         minDate={formData.startDate.getTime() + 86400000}
-                                        onChange={(e) => { handleChange(e) }}
+                                        onChange={(value) =>  handleChange({name: 'endDate', value}) }
                                     />
                                     <img src={IconCalender} alt="icon" className="icon-select" />
                                 </div>
