@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import IconSelect from "../../assests/image/icon-select.svg";
 import IconCalender from "../../assests/image/icon-calender.svg";
-import DropFileInput from "../documentUploader";
+import DropFileInput from "../shared/documentUploader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -39,16 +39,22 @@ function ProjectDetails({ props }) {
                             </div>
                         </div>
                         <form onSubmit={(e) => onSubmit(e)}>
+
+                            {/* client */}
                             <div className='row mt-3'>
                                 <div className='col-md-12'>
                                     <label className='form-label'>Client</label>
-                                    <select className="form-select" aria-label="Default select example">
+                                    <select className="form-select" name="clientId" aria-label="Default select example" value={formData.clientId} onChange={(e) => { handleChange(e) }}>
                                         <option>Select Client</option>
-                                        <option> Client 1</option>
+                                        <option value={1}> Client 1</option>
+                                        <option value={2}> Client 2</option>
+                                        <option value={3}> Client 3</option>
+                                        <option value={4}> Client 4</option>
                                     </select>
                                 </div>
                             </div>
 
+                            {/* References */}
                             <div className='row mt-3'>
                                 <div className='col-md-6'>
                                     <label className='form-label'>Internal reference</label>
@@ -60,6 +66,7 @@ function ProjectDetails({ props }) {
                                 </div>
                             </div>
 
+                            {/* Project Details */}
                             <div className='row mt-3'>
                                 <div className='col-md-6'>
                                     <label className='form-label'>Project title</label>
@@ -79,6 +86,7 @@ function ProjectDetails({ props }) {
                                 </div>
                             </div>
 
+                            {/* Start date */}
                             <div className='row mt-3'>
                                 <div className='col-md-6  relative-select'>
                                     <label className='form-label start-date'>Start date</label>
@@ -88,11 +96,12 @@ function ProjectDetails({ props }) {
                                         dateFormat="dd.MM.yyyy"
                                         selected={formData.startDate}
                                         minDate={formData.startDate}
-                                        onChange={(value) =>  handleChange({name: 'endDate', value}) }
+                                        onChange={(value) => handleChange({ target: { name: 'startDate', value } })}
                                     />
                                     <img src={IconCalender} alt="icon" className="icon-select" />
-
                                 </div>
+
+                                {/* End Date */}
                                 <div className='col-md-6  relative-select'>
                                     <label className='form-label start-date'>End date</label>
                                     <DatePicker
@@ -101,23 +110,28 @@ function ProjectDetails({ props }) {
                                         dateFormat="dd.MM.yyyy"
                                         selected={formData.endDate.getTime()}
                                         minDate={formData.startDate.getTime() + 86400000}
-                                        onChange={(value) =>  handleChange({name: 'endDate', value}) }
+                                        onChange={(value) => handleChange({ target: { name: 'endDate', value } })}
                                     />
                                     <img src={IconCalender} alt="icon" className="icon-select" />
                                 </div>
                             </div>
 
+                            {/* Product owner */}
                             <div className='row mt-3'>
                                 <div className='col-md-12 relative-select'>
                                     <label className='form-label'>Product owner</label>
-                                    <select className="form-select" aria-label="Default select example">
+                                    <select className="form-select" name="productOwnerId" aria-label="Default select example" value={formData.productOwnerId} onChange={(e) => { handleChange(e) }}>
                                         <option>Select Product owner</option>
-                                        <option> Product owner 1</option>
+                                        <option value={1}> Product Owner 1</option>
+                                        <option value={2}> Product Owner 2</option>
+                                        <option value={3}> Product Owner 3</option>
+                                        <option value={4}> Product Owner 4</option>
                                     </select>
                                     <img src={IconSelect} alt="icon" className="icon-select" />
                                 </div>
                             </div>
 
+                            {/* Check Box */}
                             <div className='row mt-4'>
                                 <div className='col-md-12'>
                                     <label for="declaration" className='d-flex justify-content-start checkbox-border'>
@@ -127,6 +141,7 @@ function ProjectDetails({ props }) {
                                 </div>
                             </div>
 
+                            {/* Submit Form */}
                             <div className='row configure-project'>
                                 <div className='col-md-12'>
                                     <button type='submit' className='btn-primary btn-lg w-100 configure-project-btn'>Configure project</button>
@@ -136,6 +151,8 @@ function ProjectDetails({ props }) {
 
                     </div>
                 </div>
+
+                {/* Document Upload */}
                 <div className='col-md-6'>
                     <div className='box-primary drag-drop'>
                         <DropFileInput

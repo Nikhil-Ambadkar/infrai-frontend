@@ -1,11 +1,11 @@
 import React from 'react';
-import Logo from "../assests/image/logo.svg";
-import DashboardIcon from "../assests/image/dasboard-icon.svg";
-import ProjectIcon from "../assests/image/project-icon.svg";
-import Milestones from "../assests/image/milestones.svg";
-import Logout from "../assests/image/icon-logout.svg";
-import Myteam from "../assests/image/my-team.svg";
-import Planing from "../assests/image/planing.svg";
+import Logo from "../../assests/image/logo.svg";
+import DashboardIcon from "../../assests/image/dasboard-icon.svg";
+import ProjectIcon from "../../assests/image/project-icon.svg";
+import Milestones from "../../assests/image/milestones.svg";
+import Logout from "../../assests/image/icon-logout.svg";
+import Myteam from "../../assests/image/my-team.svg";
+import Planing from "../../assests/image/planing.svg";
 
 function Sidebar() {
   return (
