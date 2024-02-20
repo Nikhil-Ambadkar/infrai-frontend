@@ -314,7 +314,7 @@ a {
 }
 
 .sidebar-nav .nav-item {
-  margin-bottom: 0px;
+  margin-bottom: 5px;
 }
 
 .sidebar-nav .nav-heading {
@@ -350,14 +350,13 @@ a {
 
 .sidebar-nav .nav-link.collapsed {
   color: #BBBCC6;
-  background: #22264B;
+  background-color: #22264B;
   border-radius: 5px;
 }
 
-.sidebar-nav .nav-link.collapsed i {
-  color: #899bbd;
+.cover-ul{
+  background-color: #22264B!important;
 }
-
 .sidebar-nav .nav-link:hover {
   color: #fff;
   background: #22264B;
@@ -367,6 +366,10 @@ a {
   background-color: #22264B;
   margin-top: 0 !important;
   border-radius: 0px 0px 5px 5px;
+}
+
+.submenus li:hover a span{
+  color: #fff;
 }
 
 .sidebar-nav .nav-link .bi-chevron-down {
@@ -412,7 +415,7 @@ a {
 }
 
 .logo-left {
-  padding: 47px 0px 23px;
+  padding: 27px 0px 23px;
 }
 
 .welkom {

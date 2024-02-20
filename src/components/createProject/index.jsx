@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import Sidebar from "../sidebar";
+import Sidebar from "../shared/sidebar";
 import ProjectDetails from "./projectDetails"
 import ProjectContractors from "./projectContractors";
 import ProjectMap from "./projectMap";
 import ProjectLocation from "./projectLocation";
+import ScreenTypes from "../shared/enum"
 
 function CreateProject() {
-    const [activeComponent, setActiveComponent] = useState('projectDetails');
+    const [activeComponent, setActiveComponent] = useState(ScreenTypes.ProjectDetails);
     const [project, setProject] = useState({
         clientId: null,
         internalReference: "nikhil",
@@ -39,12 +40,14 @@ function CreateProject() {
     const changeActiveComponent = (componentName) => {
         setActiveComponent(componentName)
     }
+
+    console.log("ScreenTypes", ScreenTypes);
+    console.log("activeComponent", activeComponent);
     return (
         <>
             <Sidebar />
             <main id="main" className="main">
                 <div className="pagetitle">
-                    {/* <h1>Dashboard</h1> */}
                     <nav>
                         <ol className="breadcrumb">
                             <li className="breadcrumb-item">
@@ -59,27 +62,28 @@ function CreateProject() {
                         <div className='col-md-12'>
                             <h3 className='page-title'>Project configuration</h3>
                             <div className='tab-container my-4 mx-0'>
-                                <button type='button' className={`btn btn-default ${activeComponent == 'projectDetails' ? ` active` : null} `} onClick={() => changeActiveComponent('projectDetails')}>Details</button>
-                                <button type='button' className={`btn btn-default ${activeComponent == 'projectLocation' ? ` active` : null} `} onClick={() => changeActiveComponent('projectLocation')}>Location</button>
-                                <button type='button' className={`btn btn-default ${activeComponent == 'projectMap' ? ` active` : null} `} onClick={() => changeActiveComponent('projectMap')}>Map</button>
-                                <button type='button' className={`btn btn-default ${activeComponent == 'projectContractors' ? ` active` : null} `} onClick={() => changeActiveComponent('projectContractors')}>Contractors</button>
+                                <button type='button' className={`btn btn-default ${activeComponent == 1 ? ` active` : null} `} onClick={() => changeActiveComponent(1)}>Details</button>
+                                <button type='button' className={`btn btn-default ${activeComponent == 2 ? ` active` : null} `} onClick={() => changeActiveComponent(2)}>Location</button>
+                                <button type='button' className={`btn btn-default ${activeComponent == 3 ? ` active` : null} `} onClick={() => changeActiveComponent(3)}>Map</button>
+                                <button type='button' className={`btn btn-default ${activeComponent == 4 ? ` active` : null} `} onClick={() => changeActiveComponent(4)}>Contractors</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                {
-                    activeComponent == 'projectDetails' ?
-                        <ProjectDetails props={{ "project": project, "addProjectDetails": addProjectDetails, "addProjectFiles": addProjectFiles }} />
-                        : activeComponent == 'projectLocation' ?
-                            <ProjectLocation />
-                            : activeComponent == 'projectMap' ?
-                                <ProjectMap />
-                                : activeComponent == 'projectContractors' ?
-                                    <ProjectContractors />
-                                    : <ProjectDetails />
-
-                }
-
+                {(() => {
+                    switch (activeComponent) {
+                        case 1:
+                            return <ProjectDetails props={{ "project": project, "addProjectDetails": addProjectDetails, "addProjectFiles": addProjectFiles }} />
+                        case 2:
+                            return <ProjectLocation />
+                        case 3:
+                            return <ProjectMap />
+                        case 4:
+                            return <ProjectContractors />
+                        default:
+                            return null
+                    }
+                })()}
 
             </main>
         </>

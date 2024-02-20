@@ -5,7 +5,6 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Sidebar from "./components/sidebar";
 import CreateProject from "./components/createProject/index"
 
 function App() {
