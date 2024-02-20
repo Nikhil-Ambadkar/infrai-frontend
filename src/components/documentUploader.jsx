@@ -43,8 +43,8 @@ function DropFileInput(props) {
                 onDrop={onDrop}
             >
                 <div className="drop-file-input__label">
-                    <img src={uploadImg} alt="" />
-                    <p>Drag & drop files or Browse</p>
+                    <img src={uploadImg} alt="icon" className='uploadimage' />
+                    <p className='drag-drop-file'>Drag & drop files or <span>Browse</span></p>
                     <p className="drop-file-input__label_msg">Supported formates: JPEG, PNG, GIF, MP4, PDF, PSD, AI, Word, PPT</p>
                 </div>
                 <input type="file" value="" onChange={onFileDrop} />
@@ -60,10 +60,12 @@ function DropFileInput(props) {
                                 <div key={index} className="drop-file-preview__item">
                                     {/* <img src={ImageConfig[item.type.split('/')[1]] || ImageConfig['default']} alt="" /> */}
                                     <div className="drop-file-preview__item__info w-100">
-                                        <p className='mt-2 px-3'>{item.name}</p>
+                                        <p className=''>{item.name}</p>
                                         {/* <p>{item.size}B</p> */}
                                     </div>
-                                    <span className="drop-file-preview__item__del" onClick={() => fileRemove(item)}>  <img src={bin} alt="" /></span>
+                                    <span className="drop-file-preview__item__del" onClick={() => fileRemove(item)}>
+                                      <img src={bin} alt="" />
+                                    </span>
                                 </div>
                             ))
                         }

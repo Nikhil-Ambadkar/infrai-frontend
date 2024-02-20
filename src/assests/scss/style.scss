@@ -728,7 +728,10 @@ input[type="checkbox" i] {
 }
 
 input[type="checkbox" i]:checked {
-   background: #1b1f41;
+  background: url('../image/tick-line.svg'), #1b1f41;
+  background-repeat: no-repeat;
+  background-size: 79%;
+  background-position: 2px 3px;
 }
 
 .relative-select{
@@ -747,6 +750,11 @@ input[type="checkbox" i]:checked {
     height: 36px;
 }
 
+.form-control:focus {
+  border-color: #dddee3;
+  outline: 0;
+  box-shadow: none;
+}
 
 
  @media (min-width: 1200px){
