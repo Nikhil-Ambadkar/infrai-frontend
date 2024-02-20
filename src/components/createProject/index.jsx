@@ -1,19 +1,35 @@
 import React, { useState } from "react";
 import Sidebar from "../sidebar";
 import ProjectDetails from "./projectDetails"
-// import BreadcrumbBs from "./BreadcrumbBs"
-import { Breadcrumb } from "react-bootstrap";
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Nav from 'react-bootstrap/Nav';
-import Badge from 'react-bootstrap/Badge';
-import Stack from 'react-bootstrap/Stack';
 import ProjectContractors from "./projectContractors";
 import ProjectMap from "./projectMap";
 import ProjectLocation from "./projectLocation";
 
 function CreateProject() {
     const [activeComponent, setActiveComponent] = useState('projectDetails');
+    const [project, setProject] = useState({
+        clientId: null,
+        internalReference: "nikhil",
+        externalReference: "nikhil",
+        projectTitle: null,
+        projectReference: null,
+        description: null,
+        startDate: new Date(),
+        endDate: new Date(),
+        productOwnerId: null,
+        haveSubprojects: null,
+        projectLocation: null,
+        lat: null,
+        lng: null,
+        areaType: null,
+        areaLatLng: null,
+        boundry: null,
+        boundryUnit: null,
+        projectMap: null
+    })
+    const addProjectDetails = () => {
+
+    }
 
     const changeActiveComponent = (componentName) => {
         setActiveComponent(componentName)
@@ -48,7 +64,7 @@ function CreateProject() {
                 </div>
                 {
                     activeComponent == 'projectDetails' ?
-                        <ProjectDetails />
+                        <ProjectDetails props={{ "project": project, "addProjectDetails": addProjectDetails }} />
                         : activeComponent == 'projectLocation' ?
                             <ProjectLocation />
                             : activeComponent == 'projectMap' ?
