@@ -747,6 +747,11 @@ input[type="checkbox" i]:checked {
     position: relative;
     padding-left: 50px;
   }
+
+  .form-select {
+    position: relative;
+    padding-left: 50px;
+  }
 }
 
 .icon-select {
@@ -770,6 +775,10 @@ input[type="checkbox" i]:checked {
   border-color: #dddee3;
   outline: 0;
   box-shadow: none;
+}
+
+.textarea-height {
+  height: 92px;
 }
 
 
