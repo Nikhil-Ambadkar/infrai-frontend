@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
-import './drop-file-input.css';
-import uploadImg from '../assests/image/Upload-icon.svg';
-import bin from '../assests/image/Bin-icon.svg';
+import '../../assests/scss/drop-file-input.css';
+import uploadImg from '../../assests/image/Upload-icon.svg';
+import bin from '../../assests/image/Bin-icon.svg';
 
 
 function DropFileInput(props) {
@@ -12,9 +12,7 @@ function DropFileInput(props) {
     const [editableNames, setEditableNames] = useState({});
 
     const onDragEnter = () => wrapperRef.current.classList.add('dragover');
-
     const onDragLeave = () => wrapperRef.current.classList.remove('dragover');
-
     const onDrop = () => wrapperRef.current.classList.remove('dragover');
 
     const onFileDrop = (e) => {
@@ -45,6 +43,8 @@ function DropFileInput(props) {
         const newEditableNames = { ...editableNames };
         newEditableNames[file.name] = e.target.value;
         setEditableNames(newEditableNames);
+        const updatedList = fileList.map((item) => (item === file ? { ...item, name: e.target.value } : item));
+        props.onFileChange(updatedList);
     };
 
     return (
@@ -72,15 +72,12 @@ function DropFileInput(props) {
                         {
                             fileList.map((item, index) => (
                                 <div key={index} className="drop-file-preview__item">
-                                    {/* <img src={ImageConfig[item.type.split('/')[1]] || ImageConfig['default']} alt="" /> */}
                                     <div className="drop-file-preview__item__info w-100">
                                         <input
                                             type="text"
                                             value={editableNames[item.name]}
                                             onChange={(e) => handleNameChange(e, item)}
                                         />
-                                        <p className=''>{item.name}</p>
-                                        {/* <p>{item.size}B</p> */}
                                     </div>
                                     <span className="drop-file-preview__item__del" onClick={() => fileRemove(item)}>
                                         <img src={bin} alt="" />
