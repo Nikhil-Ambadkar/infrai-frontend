@@ -50,7 +50,15 @@ function ProjectLocation({ props }) {
 
     //Below function is created to edit a input field 
     const editInputField = (index) => {
-        setSelectedInput(index)
+        setSelectedInput(index);
+
+        //Below functionality help as us to focus on input field 
+        var input = document.getElementById(`latLngInput${index}`);
+        if (input) {
+            input.focus();
+        } else {
+            console.error("Input field with ID '" + input + "' not found.");
+        }
     }
 
     const addInputField = (e, formData) => {
@@ -58,12 +66,29 @@ function ProjectLocation({ props }) {
         formData.area_latLng.push(['']);
         setFormData({ ...formData });
         setShowCloseArea(true);
+        onFocus();
+    }
+
+    const onFocus = (index) => {
+
+        // console.log("formData.area_latLng.length - 1", formData.area_latLng.length - 1);
+        // let index = formData.area_latLng.length - 1;
+        if (!index) {
+            var index = formData.area_latLng.length - 2;
+        }
+        var input = document.getElementById(`latLngInput${index}`);
+        if (input) {
+            input.focus();
+        } else {
+            console.error("Input field with ID '" + input + "' not found.");
+        }
     }
 
     const addLatLng = (e, index, formData) => {
         let latLng = e.target.value;
         formData.area_latLng[index] = latLng;
         setFormData({ ...formData })
+        onFocus(index);
         let validation = validationCheck(latLng);
 
         if (!validation) {
@@ -154,7 +179,7 @@ function ProjectLocation({ props }) {
                                     {/* <span className="dot-circle"></span> */}
                                 </span>
 
-                                <input type="text" id={`latLngInput${index}`} value={latLng} name="latLng" onChange={(e) => addLatLng(e, index, formData)} onBlur={(e)=> setSelectedInput(-1)} onMouseOut={(e) => validationCheck(e, index, formData)} />
+                                <input type="text" id={`latLngInput${index}`} value={latLng} name="latLng" onChange={(e) => addLatLng(e, index, formData)} onBlur={(e) => setSelectedInput(-1)} onMouseOut={(e) => validationCheck(e, index, formData)} />
 
                                 <div className="invalid-feedback"> Please select a valid state.</div>
 
