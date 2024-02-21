@@ -1,10 +1,21 @@
 import React from "react";
+import DropFileInput from "../shared/documentUploader";
 
+function ProjectMap({ props }) {
+    const addProjectFiles = props.addProjectFiles;
 
-function ProjectMap() {
     return (
         <>
-            <h3>This is ProjectMap page</h3>
+            <div className='map-body'>
+                <div className='black-ribbon d-flex align-items-center justify-content-between'>
+                    <span className='form-heading'>Upload your project map</span>
+                </div>
+                <div className='box-primary drag-drop'>
+                    <DropFileInput
+                        onFileChange={(files) => addProjectFiles(files)}
+                    />
+                </div>
+            </div>
         </>
     )
 }

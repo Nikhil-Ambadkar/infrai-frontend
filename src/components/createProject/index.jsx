@@ -75,9 +75,9 @@ function CreateProject() {
                         case 1:
                             return <ProjectDetails props={{ "project": project, "addProjectDetails": addProjectDetails, "addProjectFiles": addProjectFiles }} />
                         case 2:
-                            return <ProjectLocation />
+                            return <ProjectLocation props={{ "project": project, "addProjectDetails": addProjectDetails }} />
                         case 3:
-                            return <ProjectMap />
+                            return <ProjectMap props={{ "addProjectFiles": addProjectFiles }} />
                         case 4:
                             return <ProjectContractors />
                         default:
