@@ -1,10 +1,14 @@
 import React from "react";
 
-
 function ProjectMap() {
+
     return (
         <>
-            <h3>This is ProjectMap page</h3>
+             <div className='map-body'>
+                <div className='black-ribbon d-flex align-items-center justify-content-between'>
+                   <span className='form-heading'>Upload your project map</span>
+                </div>
+            </div>
         </>
     )
 }

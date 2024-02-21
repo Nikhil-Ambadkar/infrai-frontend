@@ -21,10 +21,10 @@ function Sidebar() {
           <p><span className='profile-circle-dot'></span>Bekijk notificaties</p>
         </div>
         <li className="nav-item">
-    <a className="nav-link collapsed cover-ul" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
-      <img src={ProjectIcon} alt='icon'/><span>Projects</span>
-      <i class="bi bi-chevron-down ms-auto"></i>
-    </a>
+      <a className="nav-link collapsed cover-ul" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
+        <img src={ProjectIcon} alt='icon'/><span>Projects</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
     <ul id="tables-nav" className="nav-content submenus collapse" data-bs-parent="#sidebar-nav">
       <li>
         <a href="#">
