@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Logo from "../assests/image/logo.svg";
 import DashboardIcon from "../assests/image/dasboard-icon.svg";
 import ProjectIcon from "../assests/image/project-icon.svg";
@@ -20,47 +20,24 @@ function Sidebar() {
           </div>
           <p><span className='profile-circle-dot'></span>Bekijk notificaties</p>
         </div>
-        <ul className="sidebar-nav" id="sidebar-nav">
-         <li className="nav-item">
-           <a href="#" className="nav-link">
-             <img src={DashboardIcon} alt='icon'/>
-             <span>Dashboard</span>
-          </a>
-            </li>
-            
-      <li className="nav-item">
-        <a className="nav-link collapsed cover-ul" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
-        <img src={ProjectIcon} alt='icon'/><span>Projects</span>
-            <i class="bi bi-chevron-down ms-auto"></i>
+        <li className="nav-item">
+    <a className="nav-link collapsed cover-ul" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#" aria-expanded="false">
+      <img src={ProjectIcon} alt='icon'/><span>Projects</span>
+      <i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="tables-nav" className="nav-content submenus collapse" data-bs-parent="#sidebar-nav">
+      <li>
+        <a href="#">
+          <span>All projects</span>
         </a>
-        <ul id="tables-nav" className="nav-content submenus collapse" data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="#">
-              <span>All projects</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-             <span>Create new project</span>
-            </a>
-          </li>
-        </ul>
-       </li>
-            
-       <li className="nav-item">
-           <a href="#" className="nav-link">
-             <img src={Milestones} alt='icon'/>
-             <span>Milestones</span>
-           </a>
-        </li>
-            
-         <li className="nav-item">
-           <a href="#" className="nav-link">
-             <img src={Planing} alt='icon'/>
-             <span>Planning</span> <span className='coming-soon'>Coming soon</span>
-            </a>
-           </li> 
-         </ul>
+      </li>
+      <li>
+        <a href="#">
+          <span>Create new project</span>
+        </a>
+      </li>
+    </ul>
+  </li>
       </div>
 
      <div className='fit-navbar-bottom'>
