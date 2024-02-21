@@ -154,7 +154,7 @@ function ProjectLocation({ props }) {
                                     {/* <span className="dot-circle"></span> */}
                                 </span>
 
-                                <input type="text" value={latLng} name="latLng" onChange={(e) => addLatLng(e, index, formData)} onMouseOut={(e) => validationCheck(e, index, formData)} />
+                                <input type="text" id={`latLngInput${index}`} value={latLng} name="latLng" onChange={(e) => addLatLng(e, index, formData)} onBlur={(e)=> setSelectedInput(-1)} onMouseOut={(e) => validationCheck(e, index, formData)} />
 
                                 <div className="invalid-feedback"> Please select a valid state.</div>
 
