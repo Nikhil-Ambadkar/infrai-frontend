@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import MainProject from "../../assests/image/main-project-area.svg";
 
-function ProjectLocation() {
+function ProjectLocation({ props }) {
+
+    const addProjectDetails = props.addProjectDetails;
     const areaTypes = ['Single Point', 'Path', 'Area'];
     const [areaType, setAreaType] = useState('Single Point');
     // const [selectedInput, setSelectedInput] = useState(-1);
@@ -30,7 +32,7 @@ function ProjectLocation() {
                 area_latLng.push(['']);
                 break;
             case 'Area':
-                area_latLng.push([22.721, 75.85651]);
+                area_latLng.push(['']);
                 area_latLng.push(['']);
                 area_latLng.push(['']);
                 break;
@@ -66,29 +68,33 @@ function ProjectLocation() {
 
         if (!validation) {
             console.log("error: Validate lat lng");
-            let newState = showError[index] = true;
-            setShowError(prevState => ({
-                ...prevState, newState
-            }))
+            // let newState = showError[index] = true;
+            // setShowError(prevState => ({
+            //     ...prevState, newState
+            // }))
         } else {
-            let newState = showError[index] = false;
-            setShowError(prevState => ({
-                ...prevState, newState
-            }))
+            // let newState = showError[index] = false;
+            // setShowError(prevState => ({
+            //     ...prevState, newState
+            // }))
         }
     }
 
-    console.log("showError", showError);
     const validationCheck = (latLng) => {
         const regex = /^(?=.*?,)(?=(?:[^.]*?\.){2}[^.]*?$).*$/;
         return regex.test(latLng);
     }
 
     const closeArea = (e) => {
-        alert()
         e.preventDefault();
         setShowCloseArea(false);
         setShowEnterCoordinate(false);
+    }
+
+
+    const confirmProjectArea = (e) => {
+        e.preventDefault();
+        addProjectDetails(formData);
     }
 
     console.log("formData", formData)
@@ -97,7 +103,9 @@ function ProjectLocation() {
         <form className='map-body' >
             <div className='black-ribbon d-flex align-items-center justify-content-between'>
                 <span className='form-heading'>Draw your project area on the map</span>
-                <button type="submit" className="btn" disabled>
+                {/* <button type="submit" className="btn" disabled> */}
+                <button type="submit" className="btn" onClick={(e) => confirmProjectArea(e)}>
+
                     <span className="bi bi-lock-fill"></span>
                     <span className="mx-1">Confirm project area</span>
                 </button>
@@ -121,7 +129,7 @@ function ProjectLocation() {
                             Main project area
                         </span>
 
-                        <label className="mt-3 d-block form-label">Area type</label>
+                        <label className="mt-3 d-block form-label area-type">Area type</label>
                         <div className="area-tabs">
                             {areaTypes.map(areaType => (
                                 <button
