@@ -10,7 +10,7 @@ function ProjectMap({ props }) {
                 <div className='black-ribbon d-flex align-items-center justify-content-between'>
                     <span className='form-heading'>Upload your project map</span>
                 </div>
-                <div className='box-primary drag-drop'>
+                <div className='project-map'>
                     <DropFileInput
                         onFileChange={(files) => addProjectFiles(files)}
                     />
