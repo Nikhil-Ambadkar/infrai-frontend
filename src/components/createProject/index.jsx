@@ -77,7 +77,7 @@ function CreateProject() {
                         case 2:
                             return <ProjectLocation />
                         case 3:
-                            return <ProjectMap />
+                            return <ProjectMap props={{ "addProjectFiles": addProjectFiles }} />
                         case 4:
                             return <ProjectContractors />
                         default:

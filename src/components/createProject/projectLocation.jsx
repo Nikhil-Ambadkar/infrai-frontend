@@ -142,7 +142,10 @@ function ProjectLocation() {
                                     areaType == 'Single Point' ? `POI` :
                                         areaType == 'Path' ? ((index == 0) ? `PATH A` : (index == 1) ? `PATH B` : null) :
                                             areaType == 'Area' ? `POINT ${index + 1}` :
-                                                null}</span>
+                                                null}
+                                    {/* <span className="dot-circle"></span> */}
+                                </span>
+
                                 <input type="text" value={latLng} name="latLng" onChange={(e) => addLatLng(e, index, formData)} onMouseOut={(e) => validationCheck(e, index, formData)} />
 
                                 <div className="invalid-feedback"> Please select a valid state.</div>
@@ -152,24 +155,23 @@ function ProjectLocation() {
                                 <button type="button" onClick={() => alert('click on delete')} className="btn delete-btn"><span class="bi bi-x"></span></button>
                             </div>
                         ))}
-                        <div className="d-flex w-100">
-                            <div>
-                                {
-                                    ((areaType === 'Area') && (showEnterCoordinate)) ?
-                                        <button type="button" className="btn btn-sm btn-secondary m-3 p-2 " onClick={(e) => addInputField(e, formData)}>Enter coordinates</button>
-                                        :
-                                        null
-                                }
-                            </div>
-                            <div>
-                                {
-                                    showCloseArea ?
-                                        <button type="button" className="btn btn-sm btn-secondary mt-3 p-2" onClick={(e) => closeArea(e)}>Close area</button>
-                                        : null
-                                }
-                            </div>
-                        </div>
+                        <div className="d-flex gap-2">
 
+                            {
+                                ((areaType === 'Area') && (showEnterCoordinate)) ?
+                                    <button type="button" className="btn main-project-area" onClick={(e) => addInputField(e, formData)}><i class="bi bi-plus-circle"></i> Enter coordinates</button>
+                                    :
+                                    null
+                            }
+
+
+                            {
+                                showCloseArea ?
+                                    <button type="button" className="btn main-project-area" onClick={(e) => closeArea(e)}><i class="bi bi-flag-fill"></i> Close area</button>
+                                    : null
+                            }
+
+                        </div>
                         {/* <div className="poi-input empty">
                             <span className="prefix">POI</span>
                             <input type="text" />
@@ -192,11 +194,6 @@ function ProjectLocation() {
                             <button type="button" onClick={() => alert('click on edit')} className="btn edit-btn"><span class="bi bi-pencil"></span></button>
                             <button type="button" onClick={() => alert('click on delete')} className="btn delete-btn"><span class="bi bi-x"></span></button>
                         </div> */}
-
-                        <div className="d-flex gap-2">
-                            <button type="button" className="btn main-project-area"><i class="bi bi-plus-circle"></i> Enter coordinate</button>
-                            <button type="button" className="btn main-project-area"> <i class="bi bi-flag-fill"></i> Close area</button>
-                        </div>
                     </div>
                 </div>
 
