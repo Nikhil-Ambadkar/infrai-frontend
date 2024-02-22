@@ -1,3 +1,30 @@
+### Docker Commands
+- Build an Image
+
+    $ sudo docker build -t infrai-app .
+
+- Stop the existing container
+
+    $ sudo docker stop infrai-app
+
+- Remove the existing container
+
+    $ sudo docker rm infrai-app
+
+- Run Docker Image
+
+    $ sudo docker run -d -p 4000:4000 --name infrai-app infrai-app
+
+- To see logs of this app
+
+    $ sudo docker logs infrai-app
+
+- To see list of container images
+
+    $ sudo docker ps
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
