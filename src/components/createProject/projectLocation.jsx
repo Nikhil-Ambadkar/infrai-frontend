@@ -66,7 +66,7 @@ function ProjectLocation({ props }) {
         formData.area_latLng.push(['']);
         setFormData({ ...formData });
         setShowCloseArea(true);
-        onFocus();
+        // onFocus();
     }
 
     const onFocus = (index) => {
@@ -74,7 +74,7 @@ function ProjectLocation({ props }) {
         // console.log("formData.area_latLng.length - 1", formData.area_latLng.length - 1);
         // let index = formData.area_latLng.length - 1;
         if (!index) {
-            var index = formData.area_latLng.length - 2;
+            var index = formData.area_latLng.length - 1;
         }
         var input = document.getElementById(`latLngInput${index}`);
         if (input) {
@@ -88,21 +88,34 @@ function ProjectLocation({ props }) {
         let latLng = e.target.value;
         formData.area_latLng[index] = latLng;
         setFormData({ ...formData })
-        onFocus(index);
+        // onFocus(index);
+
+    }
+
+    const onBlur = (e, index) => {
+
+        setSelectedInput(-1);
+
+        let latLng = e.target.value;
         let validation = validationCheck(latLng);
 
         if (!validation) {
-            console.log("error: Validate lat lng");
-            // let newState = showError[index] = true;
-            // setShowError(prevState => ({
-            //     ...prevState, newState
-            // }))
+            console.error("error: Validate lat lng");
+
+            setShowError(current => [...current, index])
+
         } else {
+            console.log("lat lng validated");
+            setShowError(oldValues => {
+                return oldValues.filter(showError => showError !== index)
+            })
+            setShowError()
             // let newState = showError[index] = false;
             // setShowError(prevState => ({
             //     ...prevState, newState
             // }))
         }
+
     }
 
     const validationCheck = (latLng) => {
@@ -122,7 +135,8 @@ function ProjectLocation({ props }) {
         addProjectDetails(formData);
     }
 
-    console.log("formData", formData)
+    console.log("formData", formData);
+    console.log("showError", showError);
 
     return (
         <form className='map-body' >
@@ -179,7 +193,7 @@ function ProjectLocation({ props }) {
                                     {/* <span className="dot-circle"></span> */}
                                 </span>
 
-                                <input type="text" id={`latLngInput${index}`} value={latLng} name="latLng" onChange={(e) => addLatLng(e, index, formData)} onBlur={(e) => setSelectedInput(-1)} onMouseOut={(e) => validationCheck(e, index, formData)} />
+                                <input type="text" id={`latLngInput${index}`} value={latLng} name="latLng" onChange={(e) => addLatLng(e, index, formData)} onBlur={(e) => onBlur(e, index)} onMouseOut={(e) => validationCheck(e, index, formData)} />
 
                                 <div className="invalid-feedback"> Please select a valid state.</div>
 
