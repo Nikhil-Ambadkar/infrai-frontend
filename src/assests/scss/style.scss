@@ -456,7 +456,7 @@ a {
   font-family: 'Circular Std';
   font-size: 10px;
   font-weight: 500;
-  line-height: 20px;
+  line-height: 19px;
   letter-spacing: 0em;
   text-align: left;
   border-radius: 0px 0px 6px 6px;
@@ -784,6 +784,10 @@ input[type="checkbox" i]:checked {
 
 .textarea-height {
   height: 92px;
+}
+
+.react-datepicker-wrapper{
+  width: 100%;
 }
 
 
