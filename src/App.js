@@ -13,7 +13,9 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route path="add-project" element={<CreateProject />} />
+          {/* <Route path="add-project" element={<CreateProject />} /> */}
+          <Route path="/" element={<CreateProject />} />
+
         </Routes>
       </BrowserRouter>
     </div>

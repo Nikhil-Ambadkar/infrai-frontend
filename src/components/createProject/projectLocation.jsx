@@ -1,17 +1,42 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Autocomplete, DrawingManager, GoogleMap, Polygon, Polyline, Marker, useJsApiLoader, LoadScript } from '@react-google-maps/api';
+import { Autocomplete, DrawingManager, GoogleMap, Polygon, Polyline, Marker, useJsApiLoader, LoadScript, InfoWindow } from '@react-google-maps/api';
 import MainProject from "../../assests/image/main-project-area.svg";
 
 function ProjectLocation({ props }) {
 
     const addProjectDetails = props.addProjectDetails;
     const areaTypes = ['Single Point', 'Path', 'Area'];
+    const libraries = ['places', 'drawing', 'geometry'];
     const [areaType, setAreaType] = useState('Single Point');
     const [selectedInput, setSelectedInput] = useState(-1);
     const [showCloseArea, setShowCloseArea] = useState(false);
     const [showEnterCoordinate, setShowEnterCoordinate] = useState(true);
     const [showError, setShowError] = useState([]);
-    const [showConfigureProject, setShowConfigureProject] = useState(false);
+    const [markerInstance, setMarkerInstance] = useState(null);
+    const mapRef = useRef();
+    const currentListenerRef = useRef(null);
+    const autocompleteRef = useRef();
+    const polylineRefs = useRef([]);
+
+
+    const defaultCenter = {
+        lat: 22.7196,
+        lng: 75.8577,
+    }
+
+    const geometryOptions = {
+        fillOpacity: 0.3,
+        fillColor: '#FCC331',
+        strokeColor: '#FCC331',
+        strokeWeight: 5,
+
+    }
+
+    const [center, setCenter] = useState(defaultCenter);
+    const { isLoaded, loadError } = useJsApiLoader({
+        googleMapsApiKey: "AIzaSyAuXC6KUcWLY2JgTvF_-tVJadNl-29lz4Q",
+        libraries
+    });
     const [formData, setFormData] = useState({
         projectLocation: '',
         lat: null,
@@ -57,14 +82,15 @@ function ProjectLocation({ props }) {
     const editInputField = (index) => {
         setSelectedInput(index);
         console.log("index", index);
-        
-        mapRef.current.addListener('click', (event)=> {
+        console.log("Edit input field function called");
+
+        currentListenerRef.current = mapRef.current.addListener('click', (event) => {
             // Retrieve the latitude and longitude of the clicked location
             const clickedLatLng = {
                 lat: event.latLng.lat(),
                 lng: event.latLng.lng()
             };
-            
+
             //add marker on clicked position
             updateMarkerPosition(clickedLatLng);
             console.log(index);
@@ -73,6 +99,9 @@ function ProjectLocation({ props }) {
             console.log('Clicked LatLng:', clickedLatLng);
             // You can perform any action you want with the latitude and longitude here
         })
+
+        console.log("currentListenerRef", currentListenerRef)
+
 
         //Below functionality help as us to focus on input field 
         let input = document.getElementById(`latLngInput${index}`);
@@ -108,25 +137,33 @@ function ProjectLocation({ props }) {
         formData.areaLatLng[index] = latLng;
         setFormData({ ...formData })
         // onFocus(index);
-
     }
 
-    const onBlur = (e, index) => {
+    const onSave = (e, index) => {
 
         setSelectedInput(-1);
-        console.log("onBlur index", index);
+        currentListenerRef.current.remove();
 
-        let latLng = e.target.value;
-        let validation = validationCheck(latLng);
+        let latLng = document.getElementById(`latLngInput${index}`).value;
 
-        if (!validation) {
-            console.error("error: Validate lat lng");
-            setShowError(current => [...current, index])
-        } else {
-            console.log("lat lng validated");
-            setShowError(oldValues => {
-                return oldValues.filter(showError => showError !== index)
-            })
+
+        //We are nulify markerInstance here to remove ballon/marker 
+        if (markerInstance) {
+            markerInstance.setMap(null);
+            setMarkerInstance(null);
+        }
+
+        if (latLng && latLng != '' && latLng !== null) {
+            let validation = validationCheck(latLng);
+            if (!validation) {
+                console.error("error: Validate lat lng");
+                setShowError(current => [...current, index])
+            } else {
+                console.log("lat lng validated");
+                setShowError(oldValues => {
+                    return oldValues.filter(showError => showError !== index)
+                })
+            }
         }
     }
 
@@ -143,14 +180,13 @@ function ProjectLocation({ props }) {
 
     const clearInputField = (e, index, formData) => {
         e.preventDefault();
-        console.log("clear input filed called");
-        // let latLng = e.target.value;
-        // let input = document.getElementById(`latLngInput${index}`);
-        // console.log("input", input);
-        // input.value = '';
-
         formData.areaLatLng[index] = '';
         setFormData({ ...formData })
+
+        //After clearing data from input field we will remove error, as there no lat,lng which we have to validate 
+        setShowError(oldValues => {
+            return oldValues.filter(showError => showError !== index)
+        })
     }
 
 
@@ -159,28 +195,25 @@ function ProjectLocation({ props }) {
         addProjectDetails(formData);
     }
 
-    console.log("formData...0", formData);
-    console.log("showError", showError);
 
-
-    // -----Map Related Code Start-----
-    const mapRef = useRef();
-    const [markerInstance, setMarkerInstance] = useState(null);
-    const autocompleteRef = useRef();
-    const libraries = ['places', 'drawing', 'geometry'];
-    const defaultCenter = {
-        lat: 22.7196,
-        lng: 75.8577,
-    }
-    const [center, setCenter] = useState(defaultCenter);
-    const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: "AIzaSyAuXC6KUcWLY2JgTvF_-tVJadNl-29lz4Q",
-        libraries
-    });
 
     const onLoadMap = (map) => {
         map.setMapTypeId('satellite');
         mapRef.current = map;
+        map.setOptions({
+            fullscreenControl: false,
+            streetViewControl: false,
+            mapTypeControlOptions: {
+                mapTypeIds: [] // To remove options of map view
+            }
+        });
+
+        const newMarkerInstance = new window.google.maps.Marker({
+            position: defaultCenter,
+            map: mapRef.current, // Use the map reference from useRef
+            title: 'Marker Title' // Optionally, set a title for the marker
+        });
+        setMarkerInstance(newMarkerInstance);
     }
 
     const containerStyle = {
@@ -189,12 +222,10 @@ function ProjectLocation({ props }) {
     }
 
     const onLoadAutocomplete = (autocomplete) => {
-        console.log("onLoadAutocomplete called");
         autocompleteRef.current = autocomplete;
     }
 
     const onPlaceChanged = () => {
-        console.log("onPlaceChanged called");
         const { geometry } = autocompleteRef.current.getPlace();
         const bounds = new window.google.maps.LatLngBounds();
         if (geometry.viewport) {
@@ -209,7 +240,10 @@ function ProjectLocation({ props }) {
     }
 
     const updateMarkerPosition = (latLng) => {
-        if(markerInstance){
+
+        console.log("Update Marker Position function called", markerInstance);
+        if (markerInstance) {
+            console.log("You get inside marker instance");
             markerInstance.setPosition(latLng);
             return;
         }
@@ -221,7 +255,35 @@ function ProjectLocation({ props }) {
         });
         setMarkerInstance(newMarkerInstance);
     }
-    // -----Map Related Code End-----
+
+    const onLoadPolyline = (polyline, index) => {
+        polylineRefs.current[index] = polyline;
+    }
+
+    const getCoordinates = () => {
+        console.log("Form Data is changed", formData);
+        if (formData.areaLatLng.length > 0) {
+            return formData.areaLatLng.map((latlng, index) => {
+                console.log("formData..Area Type", formData.areaType);
+                console.log("formData...", latlng, index);
+                console.log("formData...", typeof latlng, index);
+                if (typeof latlng === 'string') {
+                    const [lat, lng] = latlng.split(", ");
+                    console.log({ lat, lng });
+                    return { lat: parseFloat(lat), lng: parseFloat(lng) };
+                }
+                return null;
+            }).filter(Boolean);
+        }
+        return [];
+    };
+
+
+
+    // Call getCoordinates to retrieve path
+    const path = getCoordinates();
+    console.log("path", path)
+
 
     return (
         <form className='map-body' >
@@ -235,7 +297,6 @@ function ProjectLocation({ props }) {
                 </button>
             </div>
             <div className="map-container">
-                {/* <div className="map-1" id="map"> */}
                 {/* Map will be loaded here by using google map package */}
                 {isLoaded
                     ?
@@ -248,78 +309,93 @@ function ProjectLocation({ props }) {
                             onTilesLoaded={() => setCenter(null)}
                         >
 
-                        <div className="dark-overlay"></div>
-                        <Autocomplete
-                            onLoad={onLoadAutocomplete}
-                            onPlaceChanged={onPlaceChanged}
-                            className="map-overlay"
-                        >
-                            <div className="search-field">
-                                <span class="bi bi-search"></span>
-                                <input
-                                    type='text'
-                                    placeholder='Navigate to location'
-                                />
-                            </div>
-                        </Autocomplete>
-
-                        <div className="map-area map-overlay">
-                            <div className="yellow-line"></div>
-                            <span className='form-heading'>
-                                <img src={MainProject} alt='icon' />
-                                Main project area
-                            </span>
-
-                            <label className="mt-3 d-block form-label area-type">Area type</label>
-                            <div className="area-tabs">
-                                {areaTypes.map(areaType => (
-                                    <button
-                                        key={areaType}
-                                        type="button"
-                                        className={`btn btn-lg ${formData.areaType === areaType ? 'active' : ''}`}
-                                        onClick={() => changeAreaType(areaType)}
-                                    >
-                                        {areaType}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <label className="mt-4 d-block form-label text-yellow">Define Project area</label>
-                            {formData.areaLatLng.map((latLng, index) => (
-                                <div className={`poi-input ${(latLng == '') ? 'empty' : null} ${index === selectedInput ? 'editable' : ''} ${((showError.includes(index))) ? 'show-error' : null}`}>
-                                    <span className="prefix">{
-                                        areaType == 'Single Point' ? `POI` :
-                                            areaType == 'Path' ? ((index == 0) ? `PATH A` : (index == 1) ? `PATH B` : null) :
-                                                areaType == 'Area' ? `POINT ${index + 1}` :
-                                                    null}
-                                        { latLng ? (<span className="dot-circle"></span>) : null}
-                                    </span>
-
-                                    <input type="text" id={`latLngInput${index}`} value={latLng} name="latLng" onChange={(e) => addLatLng(e.target.value, index, formData)}  />
-                                    <button type="button" onClick={(e) => onBlur(e, index)} className="btn save-marker-btn"><span class="bi bi-save"></span></button>
-                                    <button type="button" onClick={() => editInputField(index)} className="btn enable-marker-btn">Locate on map or enter coordinates</button>
-                                    <button type="button" onClick={() => editInputField(index)} className="btn edit-btn"><span class="bi bi-pencil"></span></button>
-                                    <button type="button" onClick={(e) => clearInputField(e, index, formData)} className="btn delete-btn"><span class="bi bi-x"></span></button>
+                            <div className="dark-overlay"></div>
+                            <Autocomplete
+                                onLoad={onLoadAutocomplete}
+                                onPlaceChanged={onPlaceChanged}
+                                className="map-overlay"
+                            >
+                                <div className="search-field">
+                                    <span class="bi bi-search"></span>
+                                    <input
+                                        type='text'
+                                        placeholder='Navigate to location'
+                                    />
                                 </div>
-                            ))}
-                            <div className="d-flex gap-2">
+                            </Autocomplete>
 
-                                {
-                                    ((areaType === 'Area') && (showEnterCoordinate)) ?
-                                        <button type="button" className="btn main-project-area" onClick={(e) => addInputField(e, formData)}><i class="bi bi-plus-circle"></i> Enter coordinates</button>
-                                        :
-                                        null
-                                }
+                            {/* Rendering the polyline using the path */}
+                            {path.length > 0 && (
+                                <Polyline
+                                    path={path}
+                                    options={geometryOptions}
+                                />
+                            )}
+
+                            {path.length > 0 && (<Polygon
+                                paths={path} // Use your existing coordinates here
+                                options={geometryOptions}
+                            />
+                            )}
 
 
-                                {
-                                    ((areaType === 'Area') && (showCloseArea)) ?
-                                        <button type="button" className="btn main-project-area" onClick={(e) => closeArea(e)}><i class="bi bi-flag-fill"></i> Close area</button>
-                                        : null
-                                }
+                            <div className="map-area map-overlay">
+                                <div className="yellow-line"></div>
+                                <span className='form-heading'>
+                                    <img src={MainProject} alt='icon' />
+                                    Main project area
+                                </span>
 
-                            </div>
-                            {/* <div className="poi-input empty">
+                                <label className="mt-3 d-block form-label area-type">Area type</label>
+                                <div className="area-tabs">
+                                    {areaTypes.map(areaType => (
+                                        <button
+                                            key={areaType}
+                                            type="button"
+                                            className={`btn btn-lg ${formData.areaType === areaType ? 'active' : ''}`}
+                                            onClick={() => changeAreaType(areaType)}
+                                        >
+                                            {areaType}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <label className="mt-4 d-block form-label text-yellow">Define Project area</label>
+                                {formData.areaLatLng.map((latLng, index) => (
+                                    <div className={`poi-input ${(latLng == '') ? 'empty' : null} ${index === selectedInput ? 'editable' : ''} ${((showError.includes(index))) ? 'show-error' : null}`}>
+                                        <span className="prefix">{
+                                            areaType == 'Single Point' ? `POI` :
+                                                areaType == 'Path' ? ((index == 0) ? `PATH A` : (index == 1) ? `PATH B` : null) :
+                                                    areaType == 'Area' ? `POINT ${index + 1}` :
+                                                        null}
+                                            {latLng ? (<span className="dot-circle"></span>) : null}
+                                        </span>
+
+                                        <input type="text" id={`latLngInput${index}`} value={latLng} name="latLng" onChange={(e) => addLatLng(e.target.value, index, formData)} />
+                                        <button type="button" onClick={(e) => onSave(e, index)} className="btn save-marker-btn"><span class="bi bi-save"></span></button>
+                                        <button type="button" onClick={() => editInputField(index)} className="btn enable-marker-btn">Locate on map or enter coordinates</button>
+                                        <button type="button" onClick={() => editInputField(index)} className="btn edit-btn"><span class="bi bi-pencil"></span></button>
+                                        <button type="button" onClick={(e) => clearInputField(e, index, formData)} className="btn delete-btn"><span class="bi bi-x"></span></button>
+                                    </div>
+                                ))}
+                                <div className="d-flex gap-2">
+
+                                    {
+                                        ((areaType === 'Area') && (showEnterCoordinate)) ?
+                                            <button type="button" className="btn main-project-area" onClick={(e) => addInputField(e, formData)}><i class="bi bi-plus-circle"></i> Enter coordinates</button>
+                                            :
+                                            null
+                                    }
+
+
+                                    {
+                                        ((areaType === 'Area') && (showCloseArea)) ?
+                                            <button type="button" className="btn main-project-area" onClick={(e) => closeArea(e)}><i class="bi bi-flag-fill"></i> Close area</button>
+                                            : null
+                                    }
+
+                                </div>
+                                {/* <div className="poi-input empty">
                                 <span className="prefix">POI</span>
                                 <input type="text" />
                                 <button type="button" onClick={() => alert('enable input')} className="btn enable-marker-btn">Locate on map or enter coordinates</button>
@@ -327,31 +403,27 @@ function ProjectLocation({ props }) {
                                 <button type="button" onClick={() => alert('click on delete')} className="btn delete-btn"><span class="bi bi-x"></span></button>
                             </div> */}
 
-                            {/* <div class="poi-input">
+                                {/* <div class="poi-input">
                                 <span className="prefix">POI</span>
                                 <input type="text" value="22.551562, 75.565152" />
                                 <button type="button" onClick={() => alert('enable input')} className="btn enable-marker-btn">Locate on map or enter coordinates</button>
                                 <button type="button" onClick={() => alert('click on edit')} className="btn edit-btn"><span class="bi bi-pencil"></span></button>
                                 <button type="button" onClick={() => alert('click on delete')} className="btn delete-btn"><span class="bi bi-x"></span></button>
                             </div> */}
-                            {/* <div class="poi-input editable">
+                                {/* <div class="poi-input editable">
                                 <span className="prefix">POI</span>
                                 <input type="text" value="22.551562, 75.565152" />
                                 <button type="button" onClick={() => alert('enable input')} className="btn enable-marker-btn">Locate on map or enter coordinates</button>
                                 <button type="button" onClick={() => alert('click on edit')} className="btn edit-btn"><span class="bi bi-pencil"></span></button>
                                 <button type="button" onClick={() => alert('click on delete')} className="btn delete-btn"><span class="bi bi-x"></span></button>
                             </div> */}
-                        </div>
-                            
-                    </GoogleMap>
+                            </div>
+
+                        </GoogleMap>
 
                     </>
                     :
                     null}
-                {/* </div> */}
-
-                
-
             </div>
         </form >
     )
