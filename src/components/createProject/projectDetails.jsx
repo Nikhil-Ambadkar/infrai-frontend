@@ -134,7 +134,7 @@ function ProjectDetails({ props }) {
                             {/* Check Box */}
                             <div className='row mt-4'>
                                 <div className='col-md-12'>
-                                    <label for="declaration" className='d-flex justify-content-start checkbox-border'>
+                                    <label htmlFor="declaration" className='d-flex justify-content-start checkbox-border'>
                                         <input type="checkbox" id="declaration" required />
                                         <span className='declaration-text'>This project does not consist of sub-projects, but is executable on its own.</span>
                                     </label>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../shared/sidebar";
 import ProjectDetails from "./projectDetails"
 import ProjectContractors from "./projectContractors";
@@ -8,6 +8,7 @@ import ScreenTypes from "../shared/enum"
 
 function CreateProject() {
     const [activeComponent, setActiveComponent] = useState(ScreenTypes.ProjectDetails);
+    const [projectMap, setProjectMap] = useState(null);
     const [project, setProject] = useState({
         clientId: null,
         internalReference: "nikhil",
@@ -29,20 +30,39 @@ function CreateProject() {
         projectMap: null
     })
     const addProjectDetails = (data) => {
-        alert();
         console.log("data", data);
+        console.log("project", project);
+        setProject({ ...project, ...data })
     }
 
-    const addProjectFiles = (files) => {
+    useEffect(() => {
+        console.log("useEffect project", project);
+    }, [project])
+
+    const addProjectFiles = (files, componentId) => {
         console.log("addProjectFiles function called", files);
+        console.log("componentId", componentId);
+        console.log("projectMap...", projectMap);
+
+        //Below we are adding condition by which as user added file it will render on page
+        if (componentId == 3) {
+            const file = files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProjectMap(reader.result);
+            };
+            if (file) {
+                // Read the file as data URL
+                reader.readAsDataURL(file);
+            }
+        }
     }
 
     const changeActiveComponent = (componentName) => {
         setActiveComponent(componentName)
     }
 
-    console.log("ScreenTypes", ScreenTypes);
-    console.log("activeComponent", activeComponent);
+
     return (
         <>
             <Sidebar />
@@ -77,7 +97,7 @@ function CreateProject() {
                         case 2:
                             return <ProjectLocation props={{ "project": project, "addProjectDetails": addProjectDetails }} />
                         case 3:
-                            return <ProjectMap props={{ "addProjectFiles": addProjectFiles }} />
+                            return <ProjectMap props={{ "project": project, "addProjectFiles": addProjectFiles, "projectMap": projectMap, "componentId": 3 }} />
                         case 4:
                             return <ProjectContractors />
                         default:

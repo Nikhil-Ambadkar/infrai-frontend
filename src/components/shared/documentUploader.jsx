@@ -6,6 +6,7 @@ import bin from '../../assests/image/Bin-icon.svg';
 
 function DropFileInput(props) {
 
+    const componentId = props.componentId;
     const wrapperRef = useRef(null);
 
     const [fileList, setFileList] = useState([]);
@@ -24,7 +25,7 @@ function DropFileInput(props) {
             const newEditableNames = { ...editableNames };
             newEditableNames[newFile.name] = newFile.name;
             setEditableNames(newEditableNames);
-            props.onFileChange(updatedList);
+            props.onFileChange(updatedList, componentId);
         }
     }
 
@@ -35,7 +36,7 @@ function DropFileInput(props) {
         const newEditableNames = { ...editableNames };
         delete newEditableNames[file.name];
         setEditableNames(newEditableNames);
-        props.onFileChange(updatedList);
+        props.onFileChange(updatedList, componentId);
     }
 
     const handleNameChange = (e, file) => {
@@ -44,7 +45,7 @@ function DropFileInput(props) {
         newEditableNames[file.name] = e.target.value;
         setEditableNames(newEditableNames);
         const updatedList = fileList.map((item) => (item === file ? { ...item, name: e.target.value } : item));
-        props.onFileChange(updatedList);
+        props.onFileChange(updatedList, componentId);
     };
 
     return (
@@ -64,7 +65,8 @@ function DropFileInput(props) {
                 <input type="file" value="" onChange={onFileDrop} />
             </div>
             {
-                fileList.length > 0 ? (
+                //In case of componentId == 3 i.e. ProjectMap we will not show below part
+                (fileList.length > 0 && componentId !== 3) ? (
                     <div className="drop-file-preview">
                         <p className="drop-file-preview__title">
                             Uploaded
@@ -79,13 +81,13 @@ function DropFileInput(props) {
                                             onChange={(e) => handleNameChange(e, item)}
                                         />
                                     </div>
-                                    <span className="drop-file-preview__item__del" onClick={() => fileRemove(item)}>
+                                    < span className="drop-file-preview__item__del" onClick={() => fileRemove(item)}>
                                         <img src={bin} alt="" />
                                     </span>
                                 </div>
                             ))
                         }
-                    </div>
+                    </div >
                 ) : null
             }
         </>
