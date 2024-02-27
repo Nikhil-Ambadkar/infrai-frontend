@@ -18,7 +18,6 @@ function DropFileInput(props) {
 
     const onFileDrop = (e) => {
         const newFile = e.target.files[0];
-        console.log("new file", newFile);
         if (newFile) {
             const updatedList = [...fileList, newFile];
             setFileList(updatedList);
@@ -40,7 +39,6 @@ function DropFileInput(props) {
     }
 
     const handleNameChange = (e, file) => {
-        console.log("handleNameChange", e.target.value)
         const newEditableNames = { ...editableNames };
         newEditableNames[file.name] = e.target.value;
         setEditableNames(newEditableNames);
@@ -65,7 +63,7 @@ function DropFileInput(props) {
                 <input type="file" value="" onChange={onFileDrop} />
             </div>
             {
-                //In case of componentId == 3 i.e. ProjectMap we will not show below part
+                //In case of componentId == 3 i.e. ProjectMap, Below part will be hidden
                 (fileList.length > 0 && componentId !== 3) ? (
                     <div className="drop-file-preview">
                         <p className="drop-file-preview__title">

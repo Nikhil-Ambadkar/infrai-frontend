@@ -29,21 +29,12 @@ function CreateProject() {
         boundryUnit: null,
         projectMap: null
     })
+
     const addProjectDetails = (data) => {
-        console.log("data", data);
-        console.log("project", project);
         setProject({ ...project, ...data })
     }
 
-    useEffect(() => {
-        console.log("useEffect project", project);
-    }, [project])
-
     const addProjectFiles = (files, componentId) => {
-        console.log("addProjectFiles function called", files);
-        console.log("componentId", componentId);
-        console.log("projectMap...", projectMap);
-
         //Below we are adding condition by which as user added file it will render on page
         if (componentId == 3) {
             const file = files[0];
@@ -93,9 +84,9 @@ function CreateProject() {
                 {(() => {
                     switch (activeComponent) {
                         case 1:
-                            return <ProjectDetails props={{ "project": project, "addProjectDetails": addProjectDetails, "addProjectFiles": addProjectFiles }} />
+                            return <ProjectDetails props={{ "project": project, "addProjectDetails": addProjectDetails, "addProjectFiles": addProjectFiles, "changeActiveComponent": changeActiveComponent }} />
                         case 2:
-                            return <ProjectLocation props={{ "project": project, "addProjectDetails": addProjectDetails }} />
+                            return <ProjectLocation props={{ "project": project, "addProjectDetails": addProjectDetails, "changeActiveComponent": changeActiveComponent }} />
                         case 3:
                             return <ProjectMap props={{ "project": project, "addProjectFiles": addProjectFiles, "projectMap": projectMap, "componentId": 3 }} />
                         case 4:

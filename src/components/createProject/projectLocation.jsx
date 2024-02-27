@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Autocomplete, DrawingManager, GoogleMap, Polygon, Polyline, Marker, useJsApiLoader, LoadScript, InfoWindow } from '@react-google-maps/api';
+import { Autocomplete, GoogleMap, Polygon, Polyline, useJsApiLoader } from '@react-google-maps/api';
 import MainProject from "../../assests/image/main-project-area.svg";
 
 function ProjectLocation({ props }) {
 
     const addProjectDetails = props.addProjectDetails;
+    const changeActiveComponent = props.changeActiveComponent;
     const areaTypes = ['Single Point', 'Path', 'Area'];
     const libraries = ['places', 'drawing', 'geometry'];
     const [areaType, setAreaType] = useState('Single Point');
@@ -17,8 +18,6 @@ function ProjectLocation({ props }) {
     const mapRef = useRef();
     const currentListenerRef = useRef(null);
     const autocompleteRef = useRef();
-    const polylineRefs = useRef([]);
-
 
     const defaultCenter = {
         lat: 22.7196,
@@ -82,27 +81,18 @@ function ProjectLocation({ props }) {
     //Below function is created to edit a input field 
     const editInputField = (index) => {
         setSelectedInput(index);
-        console.log("index", index);
-        console.log("Edit input field function called");
-
         currentListenerRef.current = mapRef.current.addListener('click', (event) => {
             // Retrieve the latitude and longitude of the clicked location
             const clickedLatLng = {
                 lat: event.latLng.lat(),
                 lng: event.latLng.lng()
             };
-
             //add marker on clicked position
             updateMarkerPosition(clickedLatLng);
-            console.log(index);
             addLatLng(`${event.latLng.lat().toFixed(5)}, ${event.latLng.lng().toFixed(5)}`, index, formData);
             // Do something with the clicked latitude and longitude
-            console.log('Clicked LatLng:', clickedLatLng);
             // You can perform any action you want with the latitude and longitude here
         })
-
-        console.log("currentListenerRef", currentListenerRef)
-
 
         //Below functionality help as us to focus on input field 
         let input = document.getElementById(`latLngInput${index}`);
@@ -136,8 +126,7 @@ function ProjectLocation({ props }) {
 
     const addLatLng = (latLng, index, formData) => {
         formData.areaLatLng[index] = latLng;
-        setFormData({ ...formData })
-        // onFocus(index);
+        setFormData({ ...formData });
     }
 
     const onSave = (e, index) => {
@@ -160,7 +149,6 @@ function ProjectLocation({ props }) {
                 console.error("error: Validate lat lng");
                 setShowError(current => [...current, index])
             } else {
-                console.log("lat lng validated");
                 setShowError(oldValues => {
                     return oldValues.filter(showError => showError !== index)
                 })
@@ -168,6 +156,8 @@ function ProjectLocation({ props }) {
         }
     }
 
+    //Validation function validate Lat Lng provided to it
+    //regex is such that string should contain two dots and one comma
     const validationCheck = (latLng) => {
         const regex = /^(?=.*?,)(?=(?:[^.]*?\.){2}[^.]*?$).*$/;
         return regex.test(latLng);
@@ -190,13 +180,11 @@ function ProjectLocation({ props }) {
         })
     }
 
-
     const confirmProjectArea = (e) => {
         e.preventDefault();
         addProjectDetails(formData);
+        changeActiveComponent(3);
     }
-
-
 
     const onLoadMap = (map) => {
         map.setMapTypeId('satellite');
@@ -241,10 +229,7 @@ function ProjectLocation({ props }) {
     }
 
     const updateMarkerPosition = (latLng) => {
-
-        console.log("Update Marker Position function called", markerInstance);
         if (markerInstance) {
-            console.log("You get inside marker instance");
             markerInstance.setPosition(latLng);
             return;
         }
@@ -254,20 +239,13 @@ function ProjectLocation({ props }) {
             map: mapRef.current, // Use the map reference from useRef
             title: 'Marker Title' // Optionally, set a title for the marker
         });
+
         setMarkerInstance(newMarkerInstance);
     }
 
-    const onLoadPolyline = (polyline, index) => {
-        polylineRefs.current[index] = polyline;
-    }
-
     const getCoordinates = () => {
-        console.log("Form Data is changed", formData);
         if (formData.areaLatLng.length > 0) {
             return formData.areaLatLng.map((latlng, index) => {
-                // console.log("formData..Area Type", formData.areaType);
-                // console.log("formData...", latlng, index);
-                // console.log("formData...", typeof latlng, index);
                 if (typeof latlng === 'string') {
                     const [lat, lng] = latlng.split(", ");
                     if (lat && lng) {
@@ -294,7 +272,6 @@ function ProjectLocation({ props }) {
                 }
             }, [5000])
         }
-
     }, [formData])
 
     useEffect(() => {
@@ -303,10 +280,9 @@ function ProjectLocation({ props }) {
         }
     }, [formData, showError, areaType])
 
+
+    //Below function help us to validate Confirm-Project-Area-Button i.e. when to disable and when to enable it
     const validateConfirmProjectAreaButton = () => {
-        console.log("formData.areaLatLng.length", formData.areaLatLng.length);
-        console.log("showError.length == 0", showError.length == 0);
-        console.log("formData.areaLatLng.some(value => value !== null)", formData.areaLatLng.every(value => value.trim() !== ''));
 
         let isValid = false;
         switch (areaType) {
@@ -319,7 +295,7 @@ function ProjectLocation({ props }) {
                 break;
 
             case 'Area':
-                //In case of areaType=area we checking only starting 3 values of array i.e. they should not be blank 
+                //In case of areaType=area we checking starting 3 values of array i.e. they should not be blank 
                 isValid = ((formData.areaLatLng.length >= 3) && (showError.length == 0) && (formData.areaLatLng.slice(0, 3).every(value => value.trim() !== '')))
                 break;
 
@@ -335,15 +311,13 @@ function ProjectLocation({ props }) {
         <form className='map-body' >
             <div className='black-ribbon d-flex align-items-center justify-content-between'>
                 <span className='form-heading'>Draw your project area on the map</span>
-                {/* <button type="submit" className="btn" disabled> */}
                 <button type="submit" className={`btn ${(confirmProjectAreaButton == true) ? null : 'disabled'}`} onClick={(e) => confirmProjectArea(e)}>
-
                     <span className="bi bi-lock-fill"></span>
                     <span className="mx-1">Confirm project area</span>
                 </button>
             </div>
             <div className="map-container">
-                {/* Map will be loaded here by using google map package */}
+                {/* Map will be loaded here */}
                 {isLoaded
                     ?
                     <GoogleMap
@@ -369,7 +343,7 @@ function ProjectLocation({ props }) {
                             </div>
                         </Autocomplete>
 
-                        {/* Rendering the polyline using the path */}
+                        {/* Rendering the Polyline*/}
                         {path.length > 0 && (
                             <Polyline
                                 path={path}
@@ -377,10 +351,12 @@ function ProjectLocation({ props }) {
                             />
                         )}
 
-                        {path.length > 0 && (<Polygon
-                            paths={path} // Use your existing coordinates here
-                            options={geometryOptions}
-                        />
+                        {/* Rendering the Polygon*/}
+                        {path.length > 0 && (
+                            <Polygon
+                                paths={path}
+                                options={geometryOptions}
+                            />
                         )}
 
 
@@ -408,11 +384,28 @@ function ProjectLocation({ props }) {
                             <label className="mt-4 d-block form-label text-yellow">Define Project area</label>
                             {formData.areaLatLng.map((latLng, index) => (
                                 <div key="index" className={`poi-input ${(latLng == '') ? 'empty' : null} ${index === selectedInput ? 'editable' : ''} ${((showError.includes(index))) ? 'show-error' : null}`}>
-                                    <span className="prefix">{
-                                        areaType == 'Single Point' ? `POI` :
-                                            areaType == 'Path' ? ((index == 0) ? `PATH A` : (index == 1) ? `PATH B` : null) :
-                                                areaType == 'Area' ? `POINT ${index + 1}` :
-                                                    null}
+                                    <span className="prefix">
+
+                                        {(() => {
+                                            switch (areaType) {
+                                                case 'Single Point':
+                                                    return 'POI';
+                                                case 'Path':
+                                                    switch (index) {
+                                                        case 0:
+                                                            return 'PATH A';
+                                                        case 1:
+                                                            return 'PATH B';
+                                                        default:
+                                                            return null;
+                                                    }
+                                                case 'Area':
+                                                    return `POINT ${index + 1}`;
+                                                default:
+                                                    return null;
+                                            }
+                                        })()}
+
                                         {latLng ? (<span className="dot-circle"></span>) : null}
                                     </span>
 
@@ -424,44 +417,30 @@ function ProjectLocation({ props }) {
                                 </div>
                             ))}
                             <div className="d-flex gap-2">
+                                {/* Button to add input field */}
+                                {areaType === 'Area' && showEnterCoordinate && (
+                                    <button
+                                        type="button"
+                                        className="btn main-project-area"
+                                        onClick={(e) => addInputField(e, formData)}
+                                    >
+                                        <i className="bi bi-plus-circle"></i>
+                                        Enter coordinates
+                                    </button>
+                                )}
 
-                                {
-                                    ((areaType === 'Area') && (showEnterCoordinate)) ?
-                                        <button type="button" className="btn main-project-area" onClick={(e) => addInputField(e, formData)}><i class="bi bi-plus-circle"></i> Enter coordinates</button>
-                                        :
-                                        null
-                                }
-
-
-                                {
-                                    ((areaType === 'Area') && (showCloseArea)) ?
-                                        <button type="button" className="btn main-project-area" onClick={(e) => closeArea(e)}><i class="bi bi-flag-fill"></i> Close area</button>
-                                        : null
-                                }
-
+                                {/* Button to close area */}
+                                {areaType === 'Area' && showCloseArea && (
+                                    <button
+                                        type="button"
+                                        className="btn main-project-area"
+                                        onClick={(e) => closeArea(e)}
+                                    >
+                                        <i className="bi bi-flag-fill"></i>
+                                        Close area
+                                    </button>
+                                )}
                             </div>
-                            {/* <div className="poi-input empty">
-                                <span className="prefix">POI</span>
-                                <input type="text" />
-                                <button type="button" onClick={() => alert('enable input')} className="btn enable-marker-btn">Locate on map or enter coordinates</button>
-                                <button type="button" className="btn edit-btn"><span class="bi bi-pencil"></span></button>
-                                <button type="button" onClick={() => alert('click on delete')} className="btn delete-btn"><span class="bi bi-x"></span></button>
-                            </div> */}
-
-                            {/* <div class="poi-input">
-                                <span className="prefix">POI</span>
-                                <input type="text" value="22.551562, 75.565152" />
-                                <button type="button" onClick={() => alert('enable input')} className="btn enable-marker-btn">Locate on map or enter coordinates</button>
-                                <button type="button" onClick={() => alert('click on edit')} className="btn edit-btn"><span class="bi bi-pencil"></span></button>
-                                <button type="button" onClick={() => alert('click on delete')} className="btn delete-btn"><span class="bi bi-x"></span></button>
-                            </div> */}
-                            {/* <div class="poi-input editable">
-                                <span className="prefix">POI</span>
-                                <input type="text" value="22.551562, 75.565152" />
-                                <button type="button" onClick={() => alert('enable input')} className="btn enable-marker-btn">Locate on map or enter coordinates</button>
-                                <button type="button" onClick={() => alert('click on edit')} className="btn edit-btn"><span class="bi bi-pencil"></span></button>
-                                <button type="button" onClick={() => alert('click on delete')} className="btn delete-btn"><span class="bi bi-x"></span></button>
-                            </div> */}
                         </div>
                     </GoogleMap>
                     :
