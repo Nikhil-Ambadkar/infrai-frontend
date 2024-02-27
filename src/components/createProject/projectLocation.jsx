@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Autocomplete, GoogleMap, Polygon, Polyline, useJsApiLoader } from '@react-google-maps/api';
 import MainProject from "../../assests/image/main-project-area.svg";
+import { MAP_KEY } from '../../shared/constants/mapKeyConstant';
 
 function ProjectLocation({ props }) {
 
@@ -33,7 +34,7 @@ function ProjectLocation({ props }) {
 
     const [center, setCenter] = useState(defaultCenter);
     const { isLoaded, loadError } = useJsApiLoader({
-        googleMapsApiKey: "AIzaSyAuXC6KUcWLY2JgTvF_-tVJadNl-29lz4Q",
+        googleMapsApiKey: MAP_KEY,
         libraries
     });
     const [formData, setFormData] = useState({

@@ -1,18 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
-import DropFileInput from "../shared/documentUploader";
+import DropFileInput from "../../shared/sharedComponents/documentUploader";
 import { GoogleMap, Polygon, Polyline, useJsApiLoader } from '@react-google-maps/api';
+import { MAP_KEY } from '../../shared/constants/mapKeyConstant';
 
 function ProjectMap({ props }) {
 
-  const addProjectFiles = props.addProjectFiles;
-  const componentId = props.componentId;
-  const projectMap = props.projectMap;
+  const componentId = 3;
+
   const projectDetails = props.project;
 
   const libraries = ['places', 'drawing', 'geometry'];
 
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyAuXC6KUcWLY2JgTvF_-tVJadNl-29lz4Q",
+    googleMapsApiKey: MAP_KEY,
     libraries
   });
 
@@ -36,6 +36,7 @@ function ProjectMap({ props }) {
   const [center, setCenter] = useState(defaultCenter);
   const [scale, setScale] = useState();
   const [path, setPath] = useState();
+  const [projectMap, setProjectMap] = useState(null);
 
   const mapRef = useRef();
   const polygonRefs = useRef([]);
@@ -86,6 +87,23 @@ function ProjectMap({ props }) {
       setPath(coordinates);
     }
   }, [areaLatLng]);
+
+
+  const addProjectFiles = (files, componentId) => {
+    //Below we are adding condition by which as user added file it will render on page
+    if (componentId == 3) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        //from here only we will send projectMap to formData
+        setProjectMap(reader.result);
+      };
+      if (file) {
+        // Read the file as data URL
+        reader.readAsDataURL(file);
+      }
+    }
+  }
 
 
   return (

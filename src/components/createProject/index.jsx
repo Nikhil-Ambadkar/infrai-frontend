@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../shared/sidebar";
+import Sidebar from "../../shared/sharedComponents/sidebar";
 import ProjectDetails from "./projectDetails"
 import ProjectContractors from "./projectContractors";
 import ProjectMap from "./projectMap";
 import ProjectLocation from "./projectLocation";
-import ScreenTypes from "../shared/enum"
+import ScreenTypes from "../../shared/enums/screenTypeEnum"
 
 function CreateProject() {
-    const [activeComponent, setActiveComponent] = useState(ScreenTypes.ProjectDetails);
+    console.log("ScreenTypes", ScreenTypes);
+    const [activeComponent, setActiveComponent] = useState(ScreenTypes.Details);
     const [projectMap, setProjectMap] = useState(null);
     const [project, setProject] = useState({
         clientId: null,
@@ -34,23 +35,12 @@ function CreateProject() {
         setProject({ ...project, ...data })
     }
 
-    const addProjectFiles = (files, componentId) => {
-        //Below we are adding condition by which as user added file it will render on page
-        if (componentId == 3) {
-            const file = files[0];
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProjectMap(reader.result);
-            };
-            if (file) {
-                // Read the file as data URL
-                reader.readAsDataURL(file);
-            }
-        }
-    }
-
     const changeActiveComponent = (componentName) => {
         setActiveComponent(componentName)
+    }
+
+    const submitProject = () => {
+        console.log("Project Submitted!", project);
     }
 
 
@@ -73,23 +63,29 @@ function CreateProject() {
                         <div className='col-md-12'>
                             <h3 className='page-title'>Project configuration</h3>
                             <div className='tab-container my-4 mx-0'>
-                                <button type='button' className={`btn btn-default ${activeComponent == 1 ? ` active` : null} `} onClick={() => changeActiveComponent(1)}>Details</button>
-                                <button type='button' className={`btn btn-default ${activeComponent == 2 ? ` active` : null} `} onClick={() => changeActiveComponent(2)}>Location</button>
-                                <button type='button' className={`btn btn-default ${activeComponent == 3 ? ` active` : null} `} onClick={() => changeActiveComponent(3)}>Map</button>
-                                <button type='button' className={`btn btn-default ${activeComponent == 4 ? ` active` : null} `} onClick={() => changeActiveComponent(4)}>Contractors</button>
+                                {Object.keys(ScreenTypes).map(key => (
+                                    <button
+                                        key={ScreenTypes[key]}
+                                        type="button"
+                                        className={`btn btn-default ${activeComponent === ScreenTypes[key] ? 'active' : ''}`}
+                                        onClick={() => changeActiveComponent(ScreenTypes[key])}
+                                    >
+                                        {key}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
                 {(() => {
                     switch (activeComponent) {
-                        case 1:
-                            return <ProjectDetails props={{ "project": project, "addProjectDetails": addProjectDetails, "addProjectFiles": addProjectFiles, "changeActiveComponent": changeActiveComponent }} />
-                        case 2:
+                        case ScreenTypes.Details:
+                            return <ProjectDetails props={{ "project": project, "addProjectDetails": addProjectDetails, "changeActiveComponent": changeActiveComponent }} />
+                        case ScreenTypes.Location:
                             return <ProjectLocation props={{ "project": project, "addProjectDetails": addProjectDetails, "changeActiveComponent": changeActiveComponent }} />
-                        case 3:
-                            return <ProjectMap props={{ "project": project, "addProjectFiles": addProjectFiles, "projectMap": projectMap, "componentId": 3 }} />
-                        case 4:
+                        case ScreenTypes.Location:
+                            return <ProjectMap props={{ "project": project }} />
+                        case ScreenTypes.SubContractors:
                             return <ProjectContractors />
                         default:
                             return null

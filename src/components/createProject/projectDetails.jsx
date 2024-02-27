@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import IconSelect from "../../assests/image/icon-select.svg";
 import IconCalender from "../../assests/image/icon-calender.svg";
-import DropFileInput from "../shared/documentUploader";
+import DropFileInput from "../../shared/sharedComponents/documentUploader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
 function ProjectDetails({ props }) {
     const addProjectDetails = props.addProjectDetails;
-    const addProjectFiles = props.addProjectFiles;
     const changeActiveComponent = props.changeActiveComponent;
     const project = props.project;
 
@@ -26,6 +25,11 @@ function ProjectDetails({ props }) {
         e.preventDefault();
         addProjectDetails(formData);
         changeActiveComponent(2);
+    }
+
+    const addProjectFiles = (files) => {
+        //Below we are adding condition by which as user added file it will render on page
+        console.log("files", files)
     }
 
     return (
