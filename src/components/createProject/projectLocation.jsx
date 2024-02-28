@@ -342,16 +342,11 @@ function ProjectLocation({ props }) {
                                 <button type="button" onClick={() => alert('click on delete')} className="btn delete-btn"><span class="bi bi-x"></span></button>
                             </div> */}
                         </div>
-                            
                     </GoogleMap>
-
                     </>
                     :
                     null}
                 {/* </div> */}
-
-                
-
             </div>
         </form >
     )
