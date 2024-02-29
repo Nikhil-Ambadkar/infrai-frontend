@@ -4,7 +4,7 @@ import MainProject from "../../assests/image/main-project-area.svg";
 import { MAP_KEY } from '../../shared/constants/mapKeyConstant';
 
 function ProjectLocation({ props }) {
-
+    const project = props.project;
     const addProjectDetails = props.addProjectDetails;
     const changeActiveComponent = props.changeActiveComponent;
     const areaTypes = ['Single Point', 'Path', 'Area'];

@@ -6,6 +6,7 @@ import {
   Route
 } from "react-router-dom";
 import CreateProject from "./components/createProject/index"
+import AllProjects from "./components/allProjects/index"
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          {/* <Route path="add-project" element={<CreateProject />} /> */}
+          <Route path="all-projects" element={<AllProjects />} />
           <Route path="/" element={<CreateProject />} />
 
         </Routes>
