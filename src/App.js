@@ -5,7 +5,8 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import CreateProject from "./components/createProject/index"
+import CreateProject from "./components/createProject/index";
+import CreateNewProject from './components/Createnewproject';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="add-project" element={<CreateProject />} />
+          <Route path="create-new-project" element={<CreateNewProject />} />
         </Routes>
       </BrowserRouter>
     </div>

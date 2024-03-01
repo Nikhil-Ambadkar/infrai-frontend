@@ -22,7 +22,7 @@ function ProjectContractors() {
         </div>
       </div>
 
-      <div className="heading-main top-50">
+      <div className="heading-main top-50 d-flex">
         All sub-contractors
         <div className="tab-change">
           <span className="Grid-box">
@@ -45,7 +45,7 @@ function ProjectContractors() {
           </tr>
         </thead>
         <tbody>
-          <tr className="border-highlight active-tr-border">
+          <tr className="border-highlight active-tr-border" style={{position:"relative"}}>
             <td className="yvm-td">
               <img src={YumConstruction} alt="icon" /> YVM construction
             </td>
@@ -71,9 +71,10 @@ function ProjectContractors() {
             <td>
               <button className="btn btn-primary select-btn">Selected</button>
             </td>
+            <div className="border-adjust"></div>
           </tr>
 
-          <tr className="border-highlight">
+          <tr className="border-highlight" style={{position:"relative"}}>
             <td className="yvm-td">
               <img src={YumConstruction} alt="icon" /> YVM construction
             </td>
@@ -101,8 +102,9 @@ function ProjectContractors() {
                 Select contractor
               </button>
             </td>
+            <div className="border-adjust"></div>
           </tr>
-          <tr className="border-highlight">
+          <tr className="border-highlight" style={{position:"relative"}}>
             <td className="yvm-td">
               <img src={YumConstruction} alt="icon" /> YVM construction
             </td>
@@ -130,6 +132,8 @@ function ProjectContractors() {
                 Select contractor
               </button>
             </td>
+            <div className="border-adjust"></div>
+
           </tr>
         </tbody>
       </table>
@@ -155,7 +159,7 @@ function ProjectContractors() {
             <p className="groundwork">Groundwork</p>
             <h3>Assigned in</h3>
             <div className="bg-color-renovation">
-              <div className="d-flex">
+              <div className="d-flex flex-wrap gap-0">
                 <span className="renovation">
                   <img src={Renovation} alt="icon" />
                   Renovation of avenue 43B
@@ -186,7 +190,7 @@ function ProjectContractors() {
             <p className="groundwork">Groundwork</p>
             <h3>Assigned in</h3>
             <div className="bg-color-renovation">
-              <div className="d-flex">
+              <div className="d-flex flex-wrap gap-0">
                 <span className="renovation">
                   <img src={Renovation} alt="icon" />
                   Renovation of avenue 43B
@@ -217,7 +221,7 @@ function ProjectContractors() {
             <p className="groundwork">Groundwork</p>
             <h3>Assigned in</h3>
             <div className="bg-color-renovation">
-              <div className="d-flex">
+              <div className="d-flex flex-wrap gap-0">
                 <span className="renovation">
                   <img src={Renovation} alt="icon" />
                   Renovation of avenue 43B
@@ -248,7 +252,7 @@ function ProjectContractors() {
             <p className="groundwork">Groundwork</p>
             <h3>Assigned in</h3>
             <div className="bg-color-renovation">
-              <div className="d-flex">
+              <div className="d-flex flex-wrap gap-0">
                 <span className="renovation">
                   <img src={Renovation} alt="icon" />
                   Renovation of avenue 43B

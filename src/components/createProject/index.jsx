@@ -45,7 +45,7 @@ function CreateProject() {
     console.log("activeComponent", activeComponent);
     return (
         <>
-            <Sidebar />
+          <Sidebar/>
             <main id="main" className="main">
                 <div className="pagetitle">
                     <nav>

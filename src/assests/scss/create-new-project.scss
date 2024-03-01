@@ -1,0 +1,184 @@
+.create-btn{
+    background-color: #1B1F41;
+    color: #fff;
+    margin-left: 25px;
+    height: 39px;
+    font-family: 'Circular Std', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 15px;
+    letter-spacing: 0em;
+    text-align: left;
+    &:hover{
+        background-color: #1B1F41;
+        color: #fff;
+    }
+
+}
+
+.underline-text{
+    text-decoration: underline;
+    font-family: 'Circular Std', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000A6;
+
+}
+
+.confirm-new-project-box{
+    background-color: #F8F8F9;
+    padding: 24px;
+    border-radius: 10px;
+    
+.Project-details-text{
+    background: #1B1F4108;
+    color: #1B1F41;
+    font-family: 'Circular Std', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    border-radius: 24px;
+    padding:8px 14px 8px 14px;
+    width: fit-content;    
+}
+.project-reference{
+    display: flex;
+    justify-content: space-between;
+    background-color: #1B1F41;
+    padding:12px 24px 12px 24px;
+    border-radius: 16px;
+    margin-top: 23px;
+    h3{
+    font-family: 'Circular Std', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #FFFFFF80;
+    }
+    h4{
+    font-family: 'Circular Std', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #fff;  
+    margin-bottom: 0px;
+    }
+}
+.space-hr{
+    display: block;
+    margin-top: 26px;
+    margin-bottom: 30px;
+    border: 1px solid #1B1F4126;
+}
+.title-detail{
+    display: flex;
+    gap: 50px;
+    .renovation-avenue{
+        color: #000;
+    }
+h3{
+font-family: 'Circular Std', sans-serif;
+font-size: 14px;
+font-weight: 500;
+line-height: 22px;
+letter-spacing: 0em;
+text-align: left;
+color: #1B1F4180;
+margin-bottom: 10px;
+}
+p{
+font-family: 'Circular Std', sans-serif;
+font-size: 14px;
+font-weight: 500;
+line-height: 22px;
+letter-spacing: 0em;
+text-align: center;
+color: #1B1F41;
+margin-top: 0px;
+margin-bottom: 0px;
+}
+}
+.discription-project-detail{
+    margin-top: 24px;
+    h2{
+font-family: 'Circular Std', sans-serif;
+font-size: 14px;
+font-weight: 500;
+line-height: 22px;
+letter-spacing: 0em;
+text-align: left;
+color:#1B1F4180;
+}
+p{
+font-family: 'Circular Std', sans-serif;
+font-size: 14px;
+font-weight: 500;
+line-height: 22px;
+letter-spacing: 0em;
+text-align: left;
+color:  #1B1F41CC;
+margin-bottom: 0px;
+}
+}
+.contractors{
+    margin-top: 23px;
+    border: 1px solid #1B1F4126;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 15px;
+    border-radius: 6px;
+ }
+ .yum-construction{
+    img{vertical-align: sub;}
+    p{
+        font-family: 'Circular Std', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+        margin-bottom: 0px;
+    }
+ }
+.ground-work{
+    p{
+font-family: 'Circular Std', sans-serif;
+font-size: 12px;
+font-weight: 500;
+line-height: 15px;
+letter-spacing: 0em;
+text-align: left;
+color: #00000080;
+background: #1B1F410D;
+padding:5px 8px 5px 8px;
+border-radius: 6px;
+margin-bottom: 0px;
+  }
+ }
+
+}
+
+.project-map-top{
+    margin-top: 25px;
+    .map-project-area{
+        margin-top: 19px;
+        border-radius: 13.59px 13.59px 0px 0px;
+        width: 100%;
+        img{
+            border-radius: 13.59px;
+            width: 100%;
+        }   
+    }
+}
