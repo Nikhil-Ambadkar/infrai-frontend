@@ -31,17 +31,29 @@ function CreateProject() {
     boundryUnit: null,
     projectMap: null,
   });
+  const [currentStep, setCurrentStep] = useState(0);
+
 
   const addProjectDetails = (data) => {
     setProject({ ...project, ...data });
   };
 
   const changeActiveComponent = (componentName) => {
-    // Check if the checkbox is checked
-    if (project.haveSubprojects === false) {
-      alert("Please check the checkbox for project validation");
-    } else {
+    if (currentStep === 0) {
       setActiveComponent(componentName);
+      setCurrentStep(1);
+    } else if (currentStep === 1) {
+      setActiveComponent(componentName);
+      setCurrentStep(2);
+    } else if (currentStep === 2) {
+      setActiveComponent(componentName);
+      setCurrentStep(3);
+    } else if (currentStep === 3) {
+      setActiveComponent(componentName);
+      setCurrentStep(4);
+    } else if (currentStep === 4) {
+      setActiveComponent(componentName);
+      setCurrentStep(5);
     }
   };
 
@@ -77,6 +89,7 @@ function CreateProject() {
                         ? "active"
                         : ""
                     }`}
+                    disabled={currentStep < Object.keys(CreateProjectScreenTypes).indexOf(key)}
                     onClick={() =>
                       changeActiveComponent(CreateProjectScreenTypes[key])
                     }
@@ -111,7 +124,7 @@ function CreateProject() {
                   }}
                 />
               );
-            case CreateProjectScreenTypes.Location:
+            case CreateProjectScreenTypes.Map:
               return (
                 <ProjectMap
                   props={{
