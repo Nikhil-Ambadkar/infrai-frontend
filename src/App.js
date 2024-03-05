@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import CreateProject from "./components/createProject/index";
 import CreateNewProject from './components/Createnewproject';
+import SubProject from "./components/SubProject/index";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="add-project" element={<CreateProject />} />
           <Route path="create-new-project" element={<CreateNewProject />} />
+          <Route path='sub-project' element={<SubProject/>} />
         </Routes>
       </BrowserRouter>
     </div>
